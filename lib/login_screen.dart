@@ -17,6 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   // An object used for extracting data from fields
   final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -70,14 +71,14 @@ class _LoginScreenState extends State<LoginScreen> {
           return 'Please enter a valid username';
         }
         return null;
-      }, // TODO
+      },
     );
   }
 
   // Password
   Widget _password() {
     return TextFormField(
-      controller: null, // TODO
+      controller: _passwordController, 
       obscureText: _passHidden,
       decoration: InputDecoration(
         labelText: 'Password',
@@ -92,7 +93,16 @@ class _LoginScreenState extends State<LoginScreen> {
           icon: Icon(_passHidden ? Icons.visibility_off : Icons.visibility),
         ),
       ),
-      validator: null, // TODO
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter a password';
+        }
+        if (value.length < 8) {
+          return 'Password must be at least 8 characters long';
+        }
+        return null;
+        
+      }, 
     );
   } // Password
 
@@ -113,6 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
     // I am certain current state will not be null, so we use '!' before .validate()
     if (_formKey.currentState!.validate()) {
       final username = _usernameController.text.trim();
+      final password = _passwordController.text.trim();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('login in user $username')),
       );
