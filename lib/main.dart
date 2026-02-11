@@ -1,7 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_design/profile_card.dart';
+import 'firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+
+void main() async {
+
+
+  // Initialize the firebase service *before* we display widgets
+  // Make sure Flutter is ready before we call login service
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform
+  );
+
+
   runApp(const MyApp());
 }
 
